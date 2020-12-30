@@ -5,13 +5,6 @@ using UnityEngine.EventSystems;
 
 public class MobileScreenTouchController : MonoBehaviour
 {
-
-    bool LeftLine1 = false;
-    bool LeftLine2 = true;
-
-    bool RightLine2 = false;
-    bool RightLine1 = false;
-
     bool canClick = true;
 
     Vector2 targetPos;
@@ -23,17 +16,12 @@ public class MobileScreenTouchController : MonoBehaviour
     public AudioSource pointSound;
 
 
-    
-
-
     void Start()
     {
         targetPos = transform.position;
     }
 
-    
-
-void Update()
+    void Update()
     {
        
         foreach (Touch touch in Input.touches)
@@ -68,7 +56,9 @@ void Update()
                 }
             }
             
-        }        
+        }
+        /*
+        Uncomment this to debug using keyboard arrows.
         if(Input.GetKeyDown(KeyCode.LeftArrow))
         {
             Left();
@@ -80,12 +70,9 @@ void Update()
             Right();
             canClick = false;
             StartCoroutine(MyDelay(0.1f));
-        }
+        }*/
+        
         transform.position = Vector2.MoveTowards(transform.position, targetPos, Time.deltaTime * speed);
-        
-        
-
-
 
     }
 
@@ -97,66 +84,19 @@ void Update()
     {
         goRight();
     }
-
+    //Move Player Left & Right by Xincrement points.
     private void goLeft()
     {
-        if (LeftLine2 == true)
-        {
-            MoveSound.Play();
-            targetPos = new Vector2(transform.position.x - 0.88f, transform.position.y);
-            LeftLine2 = false;
-            LeftLine1 = true;
-        }
-        else if (RightLine2 == true)
-        {
-            MoveSound.Play();
-            targetPos = new Vector2(transform.position.x - Xincrement, transform.position.y);
-            RightLine2 = false;
-            LeftLine2 = true;
-        }
-        else if (RightLine1 == true)
-        {
-            MoveSound.Play();
-            targetPos = new Vector2(transform.position.x - 0.88f, transform.position.y);
-            RightLine1 = false;
-            RightLine2 = true;
-        }
-        else
-        {
-            return;
-        }
-
+        MoveSound.Play();
+        targetPos = new Vector2(transform.position.x - Xincrement, transform.position.y);
     }
     private void goRight()
     {
-        if (LeftLine1 == true)
-        {
-            MoveSound.Play();
-            targetPos = new Vector2(transform.position.x + 0.88f, transform.position.y);
-            LeftLine1 = false;
-            LeftLine2 = true;
-        }
-        else if (LeftLine2 == true)
-        {
-            MoveSound.Play();
-            targetPos = new Vector2(transform.position.x + Xincrement, transform.position.y);
-            LeftLine2 = false;
-            RightLine2 = true;
-        }
-        else if (RightLine2 == true)
-        {
-            MoveSound.Play();
-            targetPos = new Vector2(transform.position.x + 0.88f, transform.position.y);
-            RightLine2 = false;
-            RightLine1 = true;
-        }
-        else
-        {
-            return;
-        }
+         MoveSound.Play();
+         targetPos = new Vector2(transform.position.x + Xincrement, transform.position.y);
     }
-
-
+        
+    //Creates a small delay between touches.
     private IEnumerator MyDelay(float sec)
     {
         yield return new WaitForSeconds(sec);
